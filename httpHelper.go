@@ -4,12 +4,16 @@ import (
 	"bytes"
 	"io/ioutil"
 	"net/http"
+	"time"
 )
 
 func PostRequestJSON(url string, jsonBody []byte, header map[string]string) (statusCode int,
 	response []byte, err error) {
 
-	clientHTTP := http.Client{}
+	clientHTTP := http.Client{
+		Timeout: time.Second * 60,
+	}
+
 	req, err := http.NewRequest("POST", url, bytes.NewReader(jsonBody))
 
 	if err != nil {
